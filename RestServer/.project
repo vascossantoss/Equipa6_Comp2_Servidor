@@ -3,6 +3,7 @@
 	<name>RestServer</name>
 	<comment></comment>
 	<projects>
+		<project>FinancialAppLP</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
