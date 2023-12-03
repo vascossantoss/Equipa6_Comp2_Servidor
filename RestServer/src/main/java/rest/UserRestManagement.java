@@ -1,9 +1,9 @@
 package rest;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -11,65 +11,79 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
-import financialApp.TransactionManagement;
-import financialApp.Transactionn;
+import financialApp.UserManagement;
+import financialApp.Userr;
 
-@Path("/transaction")
-public class TransactionRestManagement {
+@Path("/user")
+public class UserRestManagement {
 	
 	private static final String PERSISTENCE_UNIT_NAME = "FinancialAppJPA";
 	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	private static EntityManager em = factory.createEntityManager();;
 	
-	private TransactionManagement tranM = new TransactionManagement(em);
+	private UserManagement userM = new UserManagement(em);
 	
+
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String sayPlainTextHello() {
-		return "REST Server : Transactions Controller";
+	public String sayPlainTextHello(Request a) {
+		return "REST Server : User Controller";
 	}
 	
 	@GET
-	@Path("/getTransactions")
-	public Response getTransactions() {		
-		List<Transactionn> transactions = tranM.findAllTransactions();
+	@Path("/getUsers")
+	public Response getUsers() {		
+		List<Userr> users = userM.findAllUsers();
 
 		return Response.status(Response.Status.OK)
-				.entity(transactions)
+				.entity(users)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
 	
 	@GET
-	@Path("/getTransaction/{id}")
-	public Response getTransaction(@PathParam("id") int id) {
-		Transactionn transactionResponse = tranM.findTransaction(id);
+	@Path("/getUser/{id}")
+	public Response getUser(@PathParam("id") int id) {
+		Userr userResponse = userM.findUser(id);
 		
 		return Response.status(Response.Status.OK)
-				.entity(transactionResponse)
+				.entity(userResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
 	
 	@POST
-	@Path("/addTransaction")
-	public Response addTransaction(Transactionn t) {		
-		Transactionn transactionResponse = tranM.addTransaction(t);
+	@Path("/addUser")
+	public Response addUser(Userr user) {		
+		Userr userResponse =userM.addUser(user);
 		
 		return Response.status(Response.Status.CREATED)
-				.entity(transactionResponse)
+				.entity(userResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
 	
+	
 	@PUT
-	@Path("/updateTransaction")
-	public Response updateTransaction(Transactionn t) {
-		Transactionn transactionResponse = tranM.updateTransaction(t);
+	@Path("/updateUser")
+	public Response updateUser(Userr user) {
+		Userr userResponse = userM.updateUser(user);
 		
 		return Response.status(Response.Status.OK)
-				.entity(transactionResponse)
+				.entity(userResponse)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+	}
+	
+	@DELETE
+	@Path("/deleteUser/{id}")
+	public Response deleteUser(@PathParam("id") int id) {
+		boolean userResponse = userM.removeUser(id);
+		
+		return Response.status(Response.Status.OK)
+				.entity(userResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}

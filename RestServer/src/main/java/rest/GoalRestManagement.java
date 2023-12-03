@@ -1,9 +1,9 @@
 package rest;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -12,65 +12,80 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import financialApp.TransactionManagement;
-import financialApp.Transactionn;
+import financialApp.GoalManagement;
+import financialApp.Goal;
 
-@Path("/transaction")
-public class TransactionRestManagement {
+@Path("/goal")
+public class GoalRestManagement {
 	
 	private static final String PERSISTENCE_UNIT_NAME = "FinancialAppJPA";
 	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	private static EntityManager em = factory.createEntityManager();;
 	
-	private TransactionManagement tranM = new TransactionManagement(em);
+	private GoalManagement goalM = new  GoalManagement (em);
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String sayPlainTextHello() {
-		return "REST Server : Transactions Controller";
+		return "REST Server : Goal Controller";
 	}
 	
 	@GET
-	@Path("/getTransactions")
-	public Response getTransactions() {		
-		List<Transactionn> transactions = tranM.findAllTransactions();
+	@Path("/getGoals")
+	public Response getGoals() {		
+		List<Goal> goal = goalM.findAllGoals();
 
 		return Response.status(Response.Status.OK)
-				.entity(transactions)
+				.entity(goal)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+	}
+	
+	
+	@POST
+	@Path("/addGoal")
+	public Response addGoal(Goal goal) {		
+		Goal goalResponse = goalM.addGoal(goal);
+		
+		return Response.status(Response.Status.CREATED)
+				.entity(goalResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
 	
 	@GET
-	@Path("/getTransaction/{id}")
-	public Response getTransaction(@PathParam("id") int id) {
-		Transactionn transactionResponse = tranM.findTransaction(id);
+	@Path("/getGoal/{id}")
+	public Response getGoal(@PathParam("id") int id) {
+		Goal goalResponse = goalM.findGoal(id);
 		
 		return Response.status(Response.Status.OK)
-				.entity(transactionResponse)
-				.type(MediaType.APPLICATION_JSON)
-				.build();
-	}
-	
-	@POST
-	@Path("/addTransaction")
-	public Response addTransaction(Transactionn t) {		
-		Transactionn transactionResponse = tranM.addTransaction(t);
-		
-		return Response.status(Response.Status.CREATED)
-				.entity(transactionResponse)
+				.entity(goalResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
 	
 	@PUT
-	@Path("/updateTransaction")
-	public Response updateTransaction(Transactionn t) {
-		Transactionn transactionResponse = tranM.updateTransaction(t);
+	@Path("/updateGoal")
+	public Response updateGoal(Goal goal) {
+		Goal transactionResponse = goalM.updateGoal(goal);
 		
 		return Response.status(Response.Status.OK)
 				.entity(transactionResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
+	
+	@DELETE
+	@Path("/deleteGoal/{id}")
+	public Response deleteGoal(@PathParam("id") int id) {
+		boolean goalResponse = goalM.removeGoal(id);
+		
+		return Response.status(Response.Status.OK)
+				.entity(goalResponse)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+	}
+
+	
+	
 }

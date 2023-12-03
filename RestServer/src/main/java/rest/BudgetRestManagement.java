@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -12,65 +13,80 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import financialApp.TransactionManagement;
-import financialApp.Transactionn;
+import financialApp.Budget;
+import financialApp.BudgetManagement;
 
-@Path("/transaction")
-public class TransactionRestManagement {
+
+
+@Path("/budget")
+public class BudgetRestManagement{
 	
 	private static final String PERSISTENCE_UNIT_NAME = "FinancialAppJPA";
 	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	private static EntityManager em = factory.createEntityManager();;
 	
-	private TransactionManagement tranM = new TransactionManagement(em);
+	private BudgetManagement budgetM = new BudgetManagement(em);
 	
+
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String sayPlainTextHello() {
-		return "REST Server : Transactions Controller";
+		return "REST Server : Budget Controller";
 	}
 	
 	@GET
-	@Path("/getTransactions")
-	public Response getTransactions() {		
-		List<Transactionn> transactions = tranM.findAllTransactions();
+	@Path("/getBudgets")
+	public Response getBudgets() {		
+		List<Budget> budgets = budgetM.findAllBudgets();
 
 		return Response.status(Response.Status.OK)
-				.entity(transactions)
+				.entity(budgets)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
 	
 	@GET
-	@Path("/getTransaction/{id}")
-	public Response getTransaction(@PathParam("id") int id) {
-		Transactionn transactionResponse = tranM.findTransaction(id);
+	@Path("/getBudget/{id}")
+	public Response getBudget(@PathParam("id") int id) {
+		Budget budgetResponse = budgetM.findBudget(id);
 		
 		return Response.status(Response.Status.OK)
-				.entity(transactionResponse)
+				.entity(budgetResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
 	
 	@POST
-	@Path("/addTransaction")
-	public Response addTransaction(Transactionn t) {		
-		Transactionn transactionResponse = tranM.addTransaction(t);
+	@Path("/addBudget")
+	public Response addBudget(Budget budget) {		
+		Budget budgetResponse = budgetM .addBudget(budget);
 		
 		return Response.status(Response.Status.CREATED)
-				.entity(transactionResponse)
+				.entity(budgetResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
 	
 	@PUT
-	@Path("/updateTransaction")
-	public Response updateTransaction(Transactionn t) {
-		Transactionn transactionResponse = tranM.updateTransaction(t);
+	@Path("/updateBudget")
+	public Response updateBudget(Budget b) {
+		Budget budgetResponse = budgetM.updateBudget(b);
 		
 		return Response.status(Response.Status.OK)
-				.entity(transactionResponse)
+				.entity(budgetResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
+	@DELETE
+	@Path("/deleteBudget/{id}")
+	public Response deleteBudget(@PathParam("id") int id) {
+		boolean budgetResponse = budgetM.removeBudget(id);
+		
+		return Response.status(Response.Status.OK)
+				.entity(budgetResponse)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+	}
+	
+	
 }
