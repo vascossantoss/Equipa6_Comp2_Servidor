@@ -13,17 +13,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+
+import financialApp.Test;
 import financialApp.UserManagement;
 import financialApp.Userr;
 
 @Path("/user")
 public class UserRestManagement {
 	
-	private static final String PERSISTENCE_UNIT_NAME = "FinancialAppJPA";
-	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	private static EntityManager em = factory.createEntityManager();;
-	
-	private UserManagement userM = new UserManagement(em);
+	private UserManagement userM = new UserManagement(Test.getEM());
 	
 
 	@GET

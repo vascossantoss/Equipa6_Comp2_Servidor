@@ -13,16 +13,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import financialApp.CategoryManagement;
+import financialApp.Test;
 import financialApp.Category;
 
 @Path("/category")
 public class CategoryRestManagement {
 	
-	private static final String PERSISTENCE_UNIT_NAME = "FinancialAppJPA";
-	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	private static EntityManager em = factory.createEntityManager();;
 	
-	private CategoryManagement catM = new CategoryManagement(em);
+	
+	private CategoryManagement catM = new CategoryManagement(Test.getEM());
 	
 
 	@GET

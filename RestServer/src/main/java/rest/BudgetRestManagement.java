@@ -15,17 +15,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import financialApp.Budget;
 import financialApp.BudgetManagement;
+import financialApp.Test;
 
 
 
 @Path("/budget")
 public class BudgetRestManagement{
-	
-	private static final String PERSISTENCE_UNIT_NAME = "FinancialAppJPA";
-	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	private static EntityManager em = factory.createEntityManager();;
-	
-	private BudgetManagement budgetM = new BudgetManagement(em);
+
+	private BudgetManagement budgetM = new BudgetManagement(Test.getEM());
 	
 
 	@GET

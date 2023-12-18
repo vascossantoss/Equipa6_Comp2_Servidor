@@ -14,15 +14,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import financialApp.GoalManagement;
 import financialApp.Goal;
+import financialApp.Test;
 
 @Path("/goal")
 public class GoalRestManagement {
 	
-	private static final String PERSISTENCE_UNIT_NAME = "FinancialAppJPA";
-	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	private static EntityManager em = factory.createEntityManager();;
-	
-	private GoalManagement goalM = new  GoalManagement (em);
+	private GoalManagement goalM = new  GoalManagement (Test.getEM());
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)

@@ -12,17 +12,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import financialApp.Test;
 import financialApp.TransactionManagement;
 import financialApp.Transactionn;
 
 @Path("/transaction")
 public class TransactionRestManagement {
 	
-	private static final String PERSISTENCE_UNIT_NAME = "FinancialAppJPA";
-	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	private static EntityManager em = factory.createEntityManager();;
-	
-	private TransactionManagement tranM = new TransactionManagement(em);
+	private TransactionManagement tranM = new TransactionManagement(Test.getEM());
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
