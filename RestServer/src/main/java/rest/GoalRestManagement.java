@@ -30,10 +30,10 @@ public class GoalRestManagement {
 	@GET
 	@Path("/getGoals")
 	public Response getGoals() {		
-		List<Goal> goal = goalM.findAllGoals();
+		List<Goal> goals = goalM.findAllGoals();
 
 		return Response.status(Response.Status.OK)
-				.entity(goal)
+				.entity(goals)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
@@ -64,10 +64,10 @@ public class GoalRestManagement {
 	@PUT
 	@Path("/updateGoal")
 	public Response updateGoal(Goal goal) {
-		Goal transactionResponse = goalM.updateGoal(goal);
+		Goal goalResponse = goalM.updateGoal(goal);
 		
 		return Response.status(Response.Status.OK)
-				.entity(transactionResponse)
+				.entity(goalResponse)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 	}
