@@ -18,11 +18,8 @@ import financialApp.Category;
 
 @Path("/category")
 public class CategoryRestManagement {
-	
-	
-	
+
 	private CategoryManagement catM = new CategoryManagement(Test.getEM());
-	
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
